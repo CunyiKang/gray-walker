@@ -828,13 +828,17 @@ function renderScene() {
   if (scene.glitchLevel >= 2) setTimeout(function(){ triggerGlitch(scene.glitchLevel); }, 1000);
   if (scene.hallEffect) setTimeout(function(){ triggerHallEffect(scene.hallEffect); }, 700);
 
+  // 声音依次出现，固定间隔800ms
+  var baseDelay = 1500; // 场景开始后的基础延迟
+  var voiceInterval = 800; // 每个声音之间的间隔
   scene.voices.forEach(function(v, i) {
+    var delay = baseDelay + (i * voiceInterval); // 依次出现，间隔800ms
     setTimeout(function() {
       var qlist = QUOTES[v.persona] || [];
       var quote = qlist[Math.floor(Math.random() * qlist.length)];
       spawnVoice(v.persona, quote, v.pos, { pulse: v.repeat, duration: v.repeat ? 15000 : 10000 });
       if (scene.glitchLevel >= 2) setTimeout(function(){ triggerTextRun(); }, Math.random() * 2000 + 500);
-    }, v.delay + 1500);
+    }, delay);
   });
 
   setTimeout(function() {
