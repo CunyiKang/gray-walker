@@ -87,6 +87,33 @@ html,body { width:100%; height:100%; overflow:hidden; background:var(--bg-primar
 .voice-pale   { border-color:#7f8c8d; color:#7f8c8d; font-style:italic }
 .voice-command { border-color:#c0392b; color:#e74c3c; background:rgba(192,57,43,0.12)!important }
 .voice-thought { border-color:#8e44ad; color:#d7bde2; font-style:italic; border-style:dashed }
+/* === 新增人格样式 === */
+.voice-encyclopedia{ border-color:#5dade2; color:#5dade2 }
+.voice-conceptualization{ border-color:#2980b9; color:#2980b9 }
+.voice-visualcalc{ border-color:#1abc9c; color:#1abc9c }
+.voice-painthreshold{ border-color:#d35400; color:#d35400 }
+.voice-physicalinstrument{ border-color:#e74c3c; color:#e74c3c }
+.voice-reaction{ border-color:#f1c40f; color:#f1c40f }
+.voice-endurance{ border-color:#c0392b; color:#c0392b }
+.voice-handeye{ border-color:#e67e22; color:#e67e22 }
+.voice-perception{ border-color:#27ae60; color:#27ae60 }
+.voice-insight{ border-color:#2ecc71; color:#2ecc71 }
+.voice-shivers{ border-color:#1abc9c; color:#1abc9c }
+.voice-socrates{ border-color:#16a085; color:#16a085 }
+.voice-artexpression{ border-color:#8e44ad; color:#8e44ad }
+.voice-intuition{ border-color:#9b59b6; color:#9b59b6 }
+/* === 属性样式类 === */
+.voice-attr-intellect{ box-shadow:0 0 12px rgba(52,152,219,0.2) }
+.voice-attr-psyche{ box-shadow:0 0 12px rgba(155,89,182,0.2) }
+.voice-attr-physique{ box-shadow:0 0 12px rgba(243,156,18,0.2) }
+.voice-attr-sense{ box-shadow:0 0 12px rgba(39,174,96,0.2) }
+.voice-attr-symptom{ box-shadow:0 0 12px rgba(192,57,43,0.3) }
+/* === 极性样式类 === */
+.voice-polarity-positive{ border-width:2px }
+.voice-polarity-negative{ border-style:solid }
+.voice-polarity-neutral{ opacity:0.9 }
+/* === 属性标签样式 === */
+.voice-attr{ font-size:8px; letter-spacing:1px; padding:1px 4px; border-radius:2px; background:rgba(200,196,184,0.1); color:var(--text-dim); margin-right:4px }
 [data-theme="clarity"] .voice-volition{ border-color:#3a6e8a; color:#3a6e8a }
 [data-theme="clarity"] .voice-inland  { border-color:#a83228; color:#a83228 }
 [data-theme="clarity"] .voice-authority{ border-color:#1e8a50; color:#1e8a50 }
@@ -305,34 +332,84 @@ html,body { width:100%; height:100%; overflow:hidden; background:var(--bg-primar
 
 <script>
 // ============================================================
-// PERSONAS & QUOTES
+// PERSONAS & QUOTES — 极乐迪斯科 4×6=24 人格系统
 // ============================================================
+// 属性分类：INTELLECT(智力) | PSYCHE(精神) | PHYSIQUE(体格) | SENSE(敏感)
+// 极性分类：positive(积极/支持性) | negative(消极/破坏性) | neutral(中性)
+// 弹框位置：negative→左侧 | positive→右侧 | neutral→随机
+
 var PERSONAS = {
-  volition:    { name:"意志 Volition",            color:"#5d8aa8" },
-  inland:      { name:"内陆帝国 Inland Empire",    color:"#c0392b" },
-  authority:   { name:"权威 Authority",            color:"#27ae60" },
-  logic:       { name:"逻辑 Logic",                color:"#2980b9" },
-  empathy:     { name:"同理心 Empathy",            color:"#af7ac5" },
-  electro:     { name:"身体技能 Electrochemistry",  color:"#f39c12" },
-  half:        { name:"半吊子 Half Light",          color:"#922b21" },
-  drama:       { name:"戏剧性 Drama",              color:"#e91e63" },
-  suggestion:  { name:"诱劝 Suggestion",           color:"#e67e22" },
-  pale:        { name:"灰域 The Pale",             color:"#7f8c8d" },
-  command:     { name:"命令性幻听 Command",         color:"#c0392b" },
-  thought:     { name:"思维插入 Thought Insertion",color:"#8e44ad" }
+  // === INTELLECT 智力 [蓝色系] ===
+  logic:       { name:"逻辑 Logic",               color:"#3498db", attr:"intellect", polarity:"positive" },
+  encyclopedia:{ name:"百科全书 Encyclopedia",    color:"#5dade2", attr:"intellect", polarity:"positive" },
+  conceptualization:{ name:"概念化 Conceptualization",color:"#2980b9", attr:"intellect", polarity:"positive" },
+  inland:      { name:"内陆帝国 Inland Empire",   color:"#8e44ad", attr:"intellect", polarity:"negative" },
+  visualcalc:  { name:"视觉计算 Visual Calculus", color:"#1abc9c", attr:"intellect", polarity:"neutral" },
+  volition:    { name:"意志 Volition",            color:"#5d8aa8", attr:"intellect", polarity:"positive" },
+
+  // === PSYCHE 精神 [紫色系] ===
+  empathy:     { name:"同理心 Empathy",           color:"#9b59b6", attr:"psyche", polarity:"positive" },
+  authority:   { name:"权威 Authority",           color:"#27ae60", attr:"psyche", polarity:"negative" },
+  drama:       { name:"戏剧性 Drama",             color:"#e91e63", attr:"psyche", polarity:"negative" },
+  suggestion:  { name:"诱劝 Suggestion",          color:"#e67e22", attr:"psyche", polarity:"negative" },
+  half:        { name:"半吊子 Half Light",        color:"#922b21", attr:"psyche", polarity:"negative" },
+  pale:        { name:"灰域 The Pale",            color:"#7f8c8d", attr:"psyche", polarity:"negative" },
+
+  // === PHYSIQUE 体格 [橙色系] ===
+  electro:     { name:"电化学 Electrochemistry",  color:"#f39c12", attr:"physique", polarity:"negative" },
+  painthreshold:{ name:"痛觉阈值 Pain Threshold",color:"#d35400", attr:"physique", polarity:"positive" },
+  physicalinstrument:{ name:"强身健体 Physical Instrument",color:"#e74c3c", attr:"physique", polarity:"positive" },
+  reaction:    { name:"反应速度 Reaction Speed",  color:"#f1c40f", attr:"physique", polarity:"neutral" },
+  endurance:   { name:"耐力 Endurance",           color:"#c0392b", attr:"physique", polarity:"positive" },
+  handeye:     { name:"手眼协调 Hand/Eye",        color:"#e67e22", attr:"physique", polarity:"neutral" },
+
+  // === SENSE 敏感 [绿色系] ===
+  perception:  { name:"感知 Perception",          color:"#27ae60", attr:"sense", polarity:"neutral" },
+  insight:     { name:"洞察力 Insight",           color:"#2ecc71", attr:"sense", polarity:"positive" },
+  shivers:     { name:"战栗 Shivers",             color:"#1abc9c", attr:"sense", polarity:"negative" },
+  socrates:    { name:"萨格拉底 Socratic",        color:"#16a085", attr:"sense", polarity:"neutral" },
+  artexpression:{ name:"艺术表达 Art Expression", color:"#8e44ad", attr:"sense", polarity:"positive" },
+  intuition:   { name:"直觉 Intuition",           color:"#9b59b6", attr:"sense", polarity:"neutral" },
+
+  // === 特殊症状人格 ===
+  command:     { name:"命令性幻听 Command",       color:"#c0392b", attr:"symptom", polarity:"negative" },
+  thought:     { name:"思维插入 Thought Insertion",color:"#8e44ad", attr:"symptom", polarity:"negative" }
 };
 
 var QUOTES = {
-  volition:    ["你比自己以为的更强大。别被这些声音吓倒。","站起来。不管发生什么，你都有能力选择自己的方向。","这是你的内心，不是他们。你才是这里的主人。","一步一步来。你能行的。","那些声音不能定义你。你的选择才能。"],
-  inland:      ["有什么东西在墙的另一边……它在看着你。","这不是真的，但这也很真。你明白吗？","空气里有股味道，像旧骨头和冷铁。","你有七只眼睛，但你只睁开了一只。","那只猫认识你。它一直认识你。"],
-  authority:   ["给我坐下。我说了算。服从命令。","你是个懦夫吗？","把那些声音给我关掉。用你的意志。","没有许可你什么都不能做。","这是命令，不是请求。"],
+  // === INTELLECT 智力 ===
   logic:       ["这些是内侧颞叶的异常放电，可以被理解。","冷静分析：你现在安全，没有物理威胁。","幻听是一种症状，不是一种预言。","概率上，你感知到的90%是大脑的误报。","大脑在制造信号。大脑也可以重新学习。"],
+  encyclopedia:["根据DSM-5，幻听在精神分裂症中的患病率约为70%。","多巴胺假说：过度的多巴胺活动导致阳性症状。","研究显示，认知行为治疗可以减少幻听的影响。","记忆空白是解离症状的一种表现。","神经可塑性意味着大脑可以改变。"],
+  conceptualization:["你在寻找模式，但模式不一定存在。","抽象地看：这些声音是你的一部分，不是入侵者。","本质是：你的大脑在试图保护你，只是方式错了。","概念化你的体验，就获得了控制它的力量。","理解「为什么」比对抗「是什么」更有力量。"],
+  inland:      ["有什么东西在墙的另一边……它在看着你。","这不是真的，但这也很真。你明白吗？","空气里有股味道，像旧骨头和冷铁。","你有七只眼睛，但你只睁开了一只。","那只猫认识你。它一直认识你。"],
+  visualcalc:  ["那个阴影的角度不对。","你注意到他的瞳孔放大了。恐惧？还是药物？","墙上的裂缝形成了……一张脸？","光线从三个方向来，但只有两个光源。","那个倒影比你慢了0.3秒。"],
+  volition:    ["你比自己以为的更强大。别被这些声音吓倒。","站起来。不管发生什么，你都有能力选择自己的方向。","这是你的内心，不是他们。你才是这里的主人。","一步一步来。你能行的。","那些声音不能定义你。你的选择才能。"],
+
+  // === PSYCHE 精神 ===
   empathy:     ["你在害怕。我感受到了。你不是一个人。","那些声音……它们也在害怕什么吗？","深呼吸。让我们感受这一刻。","如果那是你内心的某个部分，它想要什么？","你值得被温柔对待。包括被你自己的内心对待。"],
-  electro:     ["来点刺激的吧。反正你的人生已经这样了。","管他呢，喝一杯就好了。","你确定要忍住？那种感觉你知道的。","活在当下。别想那么远。","你不需要这个清醒。你需要的是忘记。"],
-  half:        ["危险。快跑。","有人在你背后。转过去看！","你感觉到冷了吗？那是有人在你背后呼吸。","这是陷阱。他们都在骗你。","你必须在它伤害你之前先发制人。"],
+  authority:   ["给我坐下。我说了算。服从命令。","你是个懦夫吗？","把那些声音给我关掉。用你的意志。","没有许可你什么都不能做。","这是命令，不是请求。"],
   drama:       ["这就是你的命运！这就是——悲剧！","看啊！全世界都在看着你呢！","太感人了！你是这个故事的主角！","演下去！给他们看看！","没人注意？不可能！一定有人在看的！"],
   suggestion:  ["也许……你应该再听一下……它们在告诉你什么……","闭上眼睛。数到十。当你睁眼，一切都会好起来的……","你听到那个声音了吗？那是你的真实想法。","相信我。只需要相信我就好了。","你一直在被控制。你知道吗？"],
+  half:        ["危险。快跑。","有人在你背后。转过去看！","你感觉到冷了吗？那是有人在你背后呼吸。","这是陷阱。他们都在骗你。","你必须在它伤害你之前先发制人。"],
   pale:        ["一切都在褪色。颜色正在离开世界。","还记得你的名字吗？","没有意义。一切都空洞洞的。","遗忘吧。遗忘会来拯救你。","你身后有一片灰色的海。你正走向它。"],
+
+  // === PHYSIQUE 体格 ===
+  electro:     ["来点刺激的吧。反正你的人生已经这样了。","管他呢，喝一杯就好了。","你确定要忍住？那种感觉你知道的。","活在当下。别想那么远。","你不需要这个清醒。你需要的是忘记。"],
+  painthreshold:["痛觉是可以忍受的。你经历过更糟的。","让它穿过你。不要抵抗。","痛苦是暂时的。放弃是永久的。","你已经在承受了。这说明你能承受。","这个痛，是你活着的证明。"],
+  physicalinstrument:["你的身体能做到。跟着我。","呼吸。吸气——呼气。再来。","肌肉记忆。你的身体记得怎么平静下来。","站起来。活动一下。你的身体需要移动。","你比你的症状更强壮。"],
+  reaction:    ["现在！做决定！","不要想。动。","你的手比你的脑子快。信任它。","眨眼之间，你就能改变一切。","犹豫就是死亡。行动就是生命。"],
+  endurance:   ["你已经坚持了很久。你能再坚持一会儿。","累了没关系。继续走。","每一步都算数。即使是很小的步子。","你比你以为的更能忍耐。","继续。继续。继续。"],
+  handeye:     ["专注于你的手。感觉它在移动。","你的手指能感觉到这个杯子。这是真实的。","写下这些想法。让手替你表达。","触摸这个表面。冷。硬。真实。","你的身体是你的锚点。"],
+
+  // === SENSE 敏感 ===
+  perception:  ["你注意到他说话时没有看你吗？","那个声音的音调……有什么不对。","空气里有静电的味道。","你感觉到地板在震动吗？","他的呼吸频率变了。紧张。"],
+  insight:     ["你其实知道这不是真的。你能分辨。","那个恐惧是你的，不是外部威胁的。","你看到了模式：每次你焦虑，声音就变大。","理解：这些声音是你的一部分，不是敌人。","你比你的症状更聪明。"],
+  shivers:     ["有什么东西在你脊椎上爬……","你感觉到那个了吗？那个存在？","脖子后面的汗毛竖起来了。","有什么东西……在看着你。","那个冷风是从哪里来的？"],
+  socrates:    ["但是，你怎么知道那是真的？","你有什么证据？","那个想法从哪里来？是你的吗？","如果那不是真的呢？如果那只是一个念头？","让我问你：你真的相信那个声音吗？"],
+  artexpression:["这些声音可以是诗。可以是歌。","把你的痛苦画出来。它会变得美丽。","你的体验是独特的。它值得被表达。","艺术能把疯狂变成意义。","创造。这是你的出口。"],
+  intuition:   ["你知道答案。你只是不相信自己。","那个感觉是对的。跟着它。","有些事情，逻辑解释不了。但你知道。","信任你的直觉。它比分析更快。","你感觉到什么了吗？那就是真的。"],
+
+  // === 特殊症状人格 ===
   command:     ["去做吧。没人会知道的。","你应该那么做。那是你真正想做的。","现在。趁还来得及。去做。"],
   thought:     ["这真的是你的想法吗？还是……？","那个念头从哪里来的？你确定是你自己想出来的？"]
 };
@@ -579,25 +656,46 @@ function getTimestamp() {
 }
 
 // ============================================================
-// VOICE SYSTEM
+// VOICE SYSTEM — 弹框位置：左侧消极 | 右侧积极 | 中性随机
 // ============================================================
-var BUBBLE_COLS = [
-  {left:"3%",top:"10%"},{right:"3%",top:"10%"},
-  {left:"3%",top:"30%"},{right:"3%",top:"30%"},
-  {left:"3%",top:"50%"},{right:"3%",top:"50%"},
-  {left:"8%",bottom:"22%"},{right:"8%",bottom:"22%"},
-  {left:"8%",bottom:"8%"},{right:"8%",bottom:"8%"}
+// 左侧位置（消极人格）
+var BUBBLE_LEFT = [
+  {left:"3%",top:"10%"},{left:"4%",top:"25%"},{left:"3%",top:"40%"},
+  {left:"5%",top:"55%"},{left:"4%",bottom:"30%"},{left:"3%",bottom:"15%"}
 ];
-var bubbleSlotUsed = [];
+// 右侧位置（积极人格）
+var BUBBLE_RIGHT = [
+  {right:"3%",top:"10%"},{right:"4%",top:"25%"},{right:"3%",top:"40%"},
+  {right:"5%",top:"55%"},{right:"4%",bottom:"30%"},{right:"3%",bottom:"15%"}
+];
+var leftSlotUsed = [], rightSlotUsed = [];
 
-function getAvailableSlot() {
-  for (var i = 0; i < BUBBLE_COLS.length; i++) {
-    if (!bubbleSlotUsed[i]) { bubbleSlotUsed[i] = true; return { slot: BUBBLE_COLS[i], index: i }; }
+function getSlotByPolarity(polarity) {
+  var slots, used, side;
+  if (polarity === "negative") {
+    slots = BUBBLE_LEFT; used = leftSlotUsed; side = "left";
+  } else if (polarity === "positive") {
+    slots = BUBBLE_RIGHT; used = rightSlotUsed; side = "right";
+  } else {
+    // neutral: 随机选择左右
+    if (Math.random() < 0.5) {
+      slots = BUBBLE_LEFT; used = leftSlotUsed; side = "left";
+    } else {
+      slots = BUBBLE_RIGHT; used = rightSlotUsed; side = "right";
+    }
   }
-  var ri = Math.floor(Math.random() * BUBBLE_COLS.length);
-  return { slot: BUBBLE_COLS[ri], index: ri };
+  // 找一个空位
+  for (var i = 0; i < slots.length; i++) {
+    if (!used[i]) { used[i] = true; return { slot: slots[i], index: i, side: side }; }
+  }
+  // 没有空位，随机
+  var ri = Math.floor(Math.random() * slots.length);
+  return { slot: slots[ri], index: ri, side: side };
 }
-function releaseSlot(idx) { if (idx >= 0 && idx < bubbleSlotUsed.length) bubbleSlotUsed[idx] = false; }
+function releaseSlot(idx, side) {
+  if (side === "left" && idx >= 0 && idx < leftSlotUsed.length) leftSlotUsed[idx] = false;
+  else if (side === "right" && idx >= 0 && idx < rightSlotUsed.length) rightSlotUsed[idx] = false;
+}
 
 function spawnVoice(personaKey, text, pos, opts) {
   opts = opts || {};
@@ -606,32 +704,42 @@ function spawnVoice(personaKey, text, pos, opts) {
   var p = PERSONAS[personaKey]; if (!p) return;
 
   var existing = layer.querySelectorAll(".voice-bubble:not(.fading)");
-  if (existing.length >= 5) {
+  if (existing.length >= 6) {
     existing[0].classList.add("fading");
     setTimeout(function(){ if(existing[0].parentNode) existing[0].remove(); }, 800);
   }
 
-  var { slot, index } = getAvailableSlot();
+  // 根据人格极性决定位置
+  var polarity = p.polarity || "neutral";
+  var { slot, index, side } = getSlotByPolarity(polarity);
+  
   var b = document.createElement("div");
   b.className = "voice-bubble voice-" + personaKey + (opts.pulse ? " pulse" : "");
+  // 添加属性和极性类
+  if (p.attr) b.classList.add("attr-" + p.attr);
+  if (p.polarity) b.classList.add("polarity-" + p.polarity);
+  
   b.style.left   = slot.left   || "auto";
   b.style.right  = slot.right  || "auto";
   b.style.top    = slot.top    || "auto";
   b.style.bottom = slot.bottom || "auto";
   b.style.zIndex = 110 + Math.floor(Math.random() * 15);
   b.dataset.slotIndex = index;
+  b.dataset.slotSide = side;
 
   var isCmd = (personaKey === "command");
   var tagHtml = isCmd ? "<div class=\"voice-tag\">&#9888; 命令性幻听</div>" : "";
-  b.innerHTML = "<div class=\"voice-name\">" + p.name + "</div>" + tagHtml + "<div class=\"voice-text\">" + escapeHtml(text) + "</div>";
+  // 显示属性标签
+  var attrLabel = p.attr ? "<span class=\"voice-attr\">" + p.attr.toUpperCase() + "</span> " : "";
+  b.innerHTML = "<div class=\"voice-name\">" + attrLabel + p.name + "</div>" + tagHtml + "<div class=\"voice-text\">" + escapeHtml(text) + "</div>";
   layer.appendChild(b);
-  state.voiceHistory.push({ persona: personaKey, text: text, scene: state.currentScene });
+  state.voiceHistory.push({ persona: personaKey, text: text, scene: state.currentScene, polarity: polarity, attr: p.attr });
 
   var duration = opts.duration || (opts.pulse ? 15000 : 10000);
   setTimeout(function() {
     if (b.parentNode) {
       b.classList.add("fading");
-      setTimeout(function() { if(b.parentNode){ b.remove(); releaseSlot(parseInt(b.dataset.slotIndex)||0); } }, 800);
+      setTimeout(function() { if(b.parentNode){ b.remove(); releaseSlot(parseInt(b.dataset.slotIndex)||0, b.dataset.slotSide); } }, 800);
     }
   }, duration);
   return b;
@@ -639,7 +747,7 @@ function spawnVoice(personaKey, text, pos, opts) {
 
 function clearVoices() {
   var layer = document.getElementById("voice-layer");
-  if (layer) { layer.innerHTML = ""; bubbleSlotUsed = []; }
+  if (layer) { layer.innerHTML = ""; leftSlotUsed = []; rightSlotUsed = []; }
 }
 
 // ============================================================
